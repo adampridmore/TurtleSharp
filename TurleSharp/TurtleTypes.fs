@@ -10,15 +10,18 @@ type Position =
     } 
     override m.ToString() = sprintf "x:%i y:%i" m.x m.y
 
+type Direction = int
+
+
 type Turtle = {
   position : Position
-  direction : double
+  direction : Direction
 }
 
 type Vector = 
   {
     length : int
-    direction: int
+    direction: Direction
   }
   override m.ToString() = sprintf "l:%i d:%i" m.length m.direction
   
@@ -26,5 +29,6 @@ type Canvas = {
   g : Graphics
   p : Pen
   i : Image
+  turtle: Turtle
 }
 

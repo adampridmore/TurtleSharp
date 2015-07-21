@@ -20,9 +20,6 @@ let showImage (c:Canvas) =
     f.ShowDialog() |> ignore
     //f.Show() |> ignore
 
-//let drawTurlte (turtle:Turtle) (g:Graphics) (p:Pen) =
-//  g.DrawLine(p, turtle.position |> toPoint, turtle.position |> translate |> toPoint)
-
 let toCanvas (p:Position) = new Point(p.x, height - p.y)
 
 let drawLine (pos:Position) (vector:Vector) (canvas: Canvas) =
@@ -30,7 +27,16 @@ let drawLine (pos:Position) (vector:Vector) (canvas: Canvas) =
   let p2 = pos |> translate vector
   canvas.g.DrawLine(canvas.p, p1 |> toCanvas , p2 |> toCanvas) |> ignore
   canvas
+
+let moveTutle (vector:Vector) (canvas: Canvas) =
+  let absoluteDirection = canvas.turtle.direction + vector.direction
+  let p1 = canvas.turtle.position
+  let p2 = p1 |> translate {vector with direction = absoluteDirection}
   
+  canvas.g.DrawLine(canvas.p, p1 |> toCanvas , p2 |> toCanvas) |> ignore
+  
+  { canvas with turtle = { canvas.turtle with position = p2; direction = absoluteDirection} }
+
 [<EntryPoint>]
 let main argv =
     let image = new Bitmap(width,height)
@@ -40,22 +46,25 @@ let main argv =
     let canvas = { 
         g = g; 
         p = p;
-        i = image 
+        i = image;
+        turtle = { position = {x = width / 2 ; y = height /2};direction = 0} 
     }
     
-    canvas 
-    |> drawLine {x=10;y=10} {length= 100;direction= 45 }
-    |> drawLine {x=20;y=10} {length= 100;direction= 45 }
-    |> drawLine {x=30;y=10} {length= 100;direction= 45 }
-    |> drawLine {x=40;y=10} {length= 100;direction= 45 } 
-    |> drawLine {x=100;y=200} {length= 100;direction= 0 }
-    |> drawLine {x=100;y=200} {length= 100;direction= 45 }
-    |> drawLine {x=100;y=200} {length= 100;direction= 90 }
-    |> drawLine {x=100;y=200} {length= 100;direction= 135}
-    |> drawLine {x=100;y=200} {length= 100;direction= 180 }
-    |> drawLine {x=100;y=200} {length= 100;direction= 225 }
-    |> drawLine {x=100;y=200} {length= 100;direction= 270 }
-    |> drawLine {x=100;y=200} {length= 100;direction= 315}
+    Seq.unfold (fun (state:Canvas) -> let newC = state |> moveTutle {length=3;direction=1 }
+                                      Some(newC, newC)) canvas
+    |> Seq.take 360
+    |> Seq.last
     |> showImage
+
+//    canvas 
+//    |> moveTutle {length= 100;direction= 45 }
+//    |> moveTutle {length= 100;direction= 45 }
+//    |> moveTutle {length= 100;direction= 45 }
+//    |> moveTutle {length= 100;direction= 45 }
+//    |> moveTutle {length= 100;direction= 45 }
+//    |> moveTutle {length= 100;direction= 45 }
+//    |> moveTutle {length= 100;direction= 45 }
+//    |> moveTutle {length= 100;direction= 45 }
+//    |> showImage
 
     0
