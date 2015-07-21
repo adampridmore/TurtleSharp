@@ -3,17 +3,7 @@
 open FsUnit 
 open NUnit.Framework
 open TurtleTypes
-
-let degreesToRadians (degrees:int) = 
-  (degrees |> float) * System.Math.PI / 180.
-
-let translate (v:Vector) (p:Position) = 
-  let hoz = (v.length |> float) * System.Math.Sin(v.direction |> degreesToRadians)
-  let vert = (v.length |> float) * System.Math.Cos(v.direction |> degreesToRadians);
-  {
-    x= (p.x + (hoz |> int));
-    y= (p.y + (vert |> int))
-  }
+open Turtle
 
 [<Test>]
 let ``90 degree apply vector``()=
