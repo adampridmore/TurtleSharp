@@ -9,4 +9,8 @@ f.Height <- 100
     
 f.Show()
 
+Application.Run(f)
+
+f.Width <- 500
+
 

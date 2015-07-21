@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>2344a41f-81a3-4a88-8f4d-39636d9616cc</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>TurleSharp</RootNamespace>
     <AssemblyName>TurleSharp</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
