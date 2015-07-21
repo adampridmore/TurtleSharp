@@ -5,13 +5,12 @@ open System.Drawing
   
 type Position = 
     { 
-      x : int ; 
-      y : int 
+      x : double ; 
+      y : double
     } 
-    override m.ToString() = sprintf "x:%i y:%i" m.x m.y
+    override m.ToString() = sprintf "x:%f y:%f" m.x m.y
 
-type Direction = int
-
+type Direction = double
 
 type Turtle = {
   position : Position
@@ -20,10 +19,10 @@ type Turtle = {
 
 type Vector = 
   {
-    length : int
+    length : double
     direction: Direction
   }
-  override m.ToString() = sprintf "l:%i d:%i" m.length m.direction
+  override m.ToString() = sprintf "l:%f d:%f" m.length m.direction
   
 type Canvas = {
   g : Graphics

@@ -3,8 +3,8 @@ open System.Drawing
 open TurtleTypes
 open Turtle
 
-let width = 640
-let height = 480
+let width = 640.
+let height = 480.
 
 let showImage (c:Canvas) = 
     let f = new System.Windows.Forms.Form();
@@ -20,7 +20,7 @@ let showImage (c:Canvas) =
     f.ShowDialog() |> ignore
     //f.Show() |> ignore
 
-let toCanvas (p:Position) = new Point(p.x, height - p.y)
+let toCanvas (p:Position) = new Point(p.x |> int, (height - p.y) |> int )
 
 let drawLine (pos:Position) (vector:Vector) (canvas: Canvas) =
   let p1 = pos
@@ -39,7 +39,7 @@ let moveTutle (vector:Vector) (canvas: Canvas) =
 
 [<EntryPoint>]
 let main argv =
-    let image = new Bitmap(width,height)
+    let image = new Bitmap((width |> int), (height |> int))
     let g = Graphics.FromImage(image);
     let p = new Pen(new SolidBrush(Color.Black))
 
@@ -47,10 +47,10 @@ let main argv =
         g = g; 
         p = p;
         i = image;
-        turtle = { position = {x = width / 2 ; y = height /2};direction = 0} 
+        turtle = { position = {x = width / 2. ; y = height / 2.};direction = 0.} 
     }
     
-    Seq.unfold (fun (state:Canvas) -> let newC = state |> moveTutle {length=3;direction=1 }
+    Seq.unfold (fun (state:Canvas) -> let newC = state |> moveTutle {length=2.;direction=1. }
                                       Some(newC, newC)) canvas
     |> Seq.take 360
     |> Seq.last

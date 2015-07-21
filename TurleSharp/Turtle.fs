@@ -5,16 +5,16 @@ open System
 
 let sin x = Math.Sin(x)
 let cos x = Math.Cos(x)
-let PI = Math.PI
+let PI = Math.PI |> double
 
-let degreesToRadians (degrees:int) = 
-  (degrees |> float) * PI / 180.
+let degreesToRadians (degrees:double) = 
+  degrees * PI / 180.
 
 let translate (v:Vector) (p:Position) = 
-  let hoz = (v.length |> float) * sin (v.direction |> degreesToRadians)
-  let vert = (v.length |> float) * cos (v.direction |> degreesToRadians);
+  let hoz = (v.length |> double) * sin (v.direction |> degreesToRadians)
+  let vert = (v.length |> double) * cos (v.direction |> degreesToRadians);
   {
-    x= (p.x + (hoz |> int));
-    y= (p.y + (vert |> int))
+    x= p.x + hoz;
+    y= p.y + vert
   }
 
