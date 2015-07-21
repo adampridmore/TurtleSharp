@@ -37,10 +37,19 @@ let main argv =
     let lengthInc = 50.
     let directionIncrement = 360. / (numberOfSides |> float)
     
-    Seq.unfold (fun canvas -> let newCanvas = canvas |> moveTutle {length=lengthInc;direction=directionIncrement }
-                              Some(newCanvas, newCanvas)) blankCanvas
-    |> Seq.take numberOfSides
-    |> Seq.last
+//    Seq.unfold (fun canvas -> let newCanvas = canvas |> moveTutle {length=lengthInc;direction=directionIncrement }
+//                              Some(newCanvas, newCanvas)) blankCanvas
+//    |> Seq.take numberOfSides
+//    |> Seq.last
+
+    blankCanvas
+    |> moveForward 10.
+    |> turnRight
+    |> moveForward 20.
+    |> turnRight
+    |> moveForward 40.
+    |> turnLeft
+    |> moveForward 80.
     |> showCanvas
     |> runApplicaiton
 

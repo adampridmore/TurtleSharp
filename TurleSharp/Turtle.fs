@@ -36,6 +36,14 @@ let moveTutle (vector:Vector) (canvas: Canvas) =
   let p2 = p1 |> translate {vector with direction = absoluteDirection}
   
   canvas.g.DrawLine(canvas.p, p1 |> toCanvas , p2 |> toCanvas) |> ignore
-  
   { canvas with turtle = { canvas.turtle with position = p2; direction = absoluteDirection} }
+
+let moveForward distance (c:Canvas) = 
+  c |> moveTutle {length = distance; direction = 0.}
+
+let turnRight (c:Canvas) = 
+  c |> moveTutle {length = 0.; direction = 45.}
+
+let turnLeft (c:Canvas) = 
+  c |> moveTutle {length = 0.; direction = -45.}
 
