@@ -1,6 +1,5 @@
 ﻿module TurtleTypes
 
-open System.Windows.Forms
 open System.Drawing
   
 type Position = 

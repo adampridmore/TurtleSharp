@@ -4,8 +4,11 @@ open TurtleTypes
 open System
 open System.Drawing
 
-let canvasWidth = 640.
-let canvasHeight = 480.
+//let canvasWidth = 640.
+//let canvasHeight = 480.
+
+//let canvasWidth = 64000.
+//let canvasHeight = 48000.
 
 let sin x = Math.Sin(x)
 let cos x = Math.Cos(x)
@@ -13,8 +16,6 @@ let PI = Math.PI |> double
 
 let degreesToRadians (degrees:double) = 
   degrees * PI / 180.
-
-let toCanvas (p:Position) = new Point(p.x |> int, (canvasHeight - p.y) |> int )
 
 let translate (v:Vector) (p:Position) = 
   let hoz = (v.length |> double) * sin (v.direction |> degreesToRadians)
@@ -24,10 +25,13 @@ let translate (v:Vector) (p:Position) =
     y= p.y + vert
   }
 
+let toCanvas (p:Position) (canvas:Canvas) = 
+  new Point(p.x |> int, ((canvas.i.Height |> float) - p.y) |> int )
+
 let drawLine (pos:Position) (vector:Vector) (canvas: Canvas) =
   let p1 = pos
   let p2 = pos |> translate vector
-  canvas.g.DrawLine(canvas.p, p1 |> toCanvas , p2 |> toCanvas) |> ignore
+  canvas.g.DrawLine(canvas.p, (toCanvas p1 canvas), (toCanvas p2 canvas)) |> ignore
   canvas
 
 let moveTutle (vector:Vector) (canvas: Canvas) =
@@ -35,15 +39,15 @@ let moveTutle (vector:Vector) (canvas: Canvas) =
   let p1 = canvas.turtle.position
   let p2 = p1 |> translate {vector with direction = absoluteDirection}
   
-  canvas.g.DrawLine(canvas.p, p1 |> toCanvas , p2 |> toCanvas) |> ignore
+  canvas.g.DrawLine(canvas.p, toCanvas p1 canvas, toCanvas p2 canvas) |> ignore
   { canvas with turtle = { canvas.turtle with position = p2; direction = absoluteDirection} }
 
 let moveForward distance (c:Canvas) = 
   c |> moveTutle {length = distance; direction = 0.}
 
 let turnRight (c:Canvas) = 
-  c |> moveTutle {length = 0.; direction = 45.}
+  c |> moveTutle {length = 0.; direction = 90.}
 
 let turnLeft (c:Canvas) = 
-  c |> moveTutle {length = 0.; direction = -45.}
+  c |> moveTutle {length = 0.; direction = -90.}
 

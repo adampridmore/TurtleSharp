@@ -1,55 +1,56 @@
 ﻿open System.Windows.Forms
 open System.Drawing
+open Dragon
 open TurtleTypes
 open Turtle
-
-let showCanvas (c:Canvas) = 
-    let f= new System.Windows.Forms.Form();
-    f.Width <- c.i.Width
-    f.Height <- c.i.Height + 50
-    
-    let pb = new PictureBox()
-    pb.Dock <- DockStyle.Fill
-    pb.Image <- c.i
-    
-    f.Controls.Add(pb)
-
-    //f.ShowDialog() |> ignore
-    f.Show()
-    f
-
-let blankCanvas = 
-  let image = new Bitmap((canvasWidth |> int), (canvasHeight |> int))
-  let turtle = { position = { x = canvasWidth / 2. ; y = canvasHeight / 2.}; direction = 0. }
-  let g = Graphics.FromImage(image);
-  g.SmoothingMode <- System.Drawing.Drawing2D.SmoothingMode.HighQuality
-
-  let penWidth = 2.f
-
-  {g = g; p = new Pen(new SolidBrush(Color.Black),penWidth); i = image; turtle = turtle}
-
-let runApplicaiton (form:Form) = 
-  Application.Run(form)
+open Canvas
 
 [<EntryPoint>]
 let main argv =
-    let numberOfSides = 7
-    let lengthInc = 50.
-    let directionIncrement = 360. / (numberOfSides |> float)
+//    let numberOfSides = 7
+//    let lengthInc = 50.
+//    let directionIncrement = 360. / (numberOfSides |> float)
     
 //    Seq.unfold (fun canvas -> let newCanvas = canvas |> moveTutle {length=lengthInc;direction=directionIncrement }
 //                              Some(newCanvas, newCanvas)) blankCanvas
 //    |> Seq.take numberOfSides
 //    |> Seq.last
 
-    blankCanvas
-    |> moveForward 10.
-    |> turnRight
-    |> moveForward 20.
-    |> turnRight
-    |> moveForward 40.
-    |> turnLeft
-    |> moveForward 80.
+//    blankCanvas
+//    |> moveForward 10.
+//    |> turnRight
+//    |> moveForward 20.
+//    |> turnRight
+//    |> moveForward 30.
+//    |> turnRight
+//    |> moveForward 40.
+//    |> turnRight
+//    |> moveForward 50.
+//    |> turnLeft
+//    |> moveForward 60.
+//
+//    |> showCanvas
+//    |> runApplicaiton
+  
+    let dragonSequence = Dragon.dragon 10
+
+    let doTurn (turn) canvas = 
+      match turn with 
+      | L -> turnLeft canvas
+      | R -> turnRight canvas
+
+
+    let dragonForward = moveForward 4.
+
+    Seq.unfold (function (canvas,dragonTail) -> match dragonTail with
+                                                |[] -> None
+                                                | hd::tail -> let nextCanvas = canvas 
+                                                                               |> dragonForward
+                                                                               |> doTurn hd 
+                                                              Some(nextCanvas, (nextCanvas, tail))
+               ) (blankCanvas 640. 480. , dragonSequence)
+    |> Seq.last
+    |> dragonForward
     |> showCanvas
     |> runApplicaiton
 
