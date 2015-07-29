@@ -1,6 +1,7 @@
 ﻿module Turtle
 
 open TurtleTypes
+open Canvas
 open System
 open System.Drawing
 
@@ -42,12 +43,18 @@ let moveTutle (vector:Vector) (canvas: Canvas) =
   canvas.g.DrawLine(canvas.p, toCanvas p1 canvas, toCanvas p2 canvas) |> ignore
   { canvas with turtle = { canvas.turtle with position = p2; direction = absoluteDirection} }
 
+let changeColor (color:Color) (c:Canvas) = 
+  { c with p = newPen color }
+  
 let moveForward distance (c:Canvas) = 
   c |> moveTutle {length = distance; direction = 0.}
 
+let turn x (c:Canvas) =
+  c |> moveTutle {length = 0.; direction = x}
+
 let turnRight (c:Canvas) = 
-  c |> moveTutle {length = 0.; direction = 90.}
+  c |> turn 90.
 
 let turnLeft (c:Canvas) = 
-  c |> moveTutle {length = 0.; direction = -90.}
+  c |> turn -90.
 

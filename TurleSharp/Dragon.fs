@@ -8,7 +8,7 @@ let dragon generation =
   let seed = R
 
   let nextDragon dirs = 
-    let swap = (function | L -> R | R -> L)
+    let swap = function | L -> R | R -> L
     let invertedRev = dirs 
                       |> List.map swap
                       |> List.rev

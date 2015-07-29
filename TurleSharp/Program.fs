@@ -32,7 +32,7 @@ let main argv =
 //    |> showCanvas
 //    |> runApplicaiton
   
-    let dragonSequence = Dragon.dragon 10
+    let dragonSequence = Dragon.dragon 5
 
     let doTurn (turn) canvas = 
       match turn with 
@@ -40,7 +40,7 @@ let main argv =
       | R -> turnRight canvas
 
 
-    let dragonForward = moveForward 4.
+    let dragonForward = moveForward 20.
 
     Seq.unfold (function (canvas,dragonTail) -> match dragonTail with
                                                 |[] -> None

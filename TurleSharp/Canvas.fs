@@ -18,16 +18,30 @@ let showCanvas (c:Canvas) =
     //f.ShowDialog() |> ignore
     f.Show()
     f
+    
+let newPen (color:Color) = 
+  let penWidth = 2.f
+  new Pen(new SolidBrush(color),penWidth)
 
 let blankCanvas canvasWidth canvasHeight = 
   let image = new Bitmap((canvasWidth |> int), (canvasHeight |> int))
-  let turtle = { position = { x = canvasWidth / 2. ; y = canvasHeight / 2.}; direction = 0. }
+  
+  let turtle = 
+    { 
+      position = 
+        { 
+          x = canvasWidth / 2. ; 
+          y = canvasHeight / 2. + 500.
+        };
+      direction = 0. 
+    }
+  
   let g = Graphics.FromImage(image);
-  g.SmoothingMode <- System.Drawing.Drawing2D.SmoothingMode.HighQuality
+  g.Clear(Color.White)
 
-  let penWidth = 1.f
+  //g.SmoothingMode <- System.Drawing.Drawing2D.SmoothingMode.HighQuality
 
-  {g = g; p = new Pen(new SolidBrush(Color.Black),penWidth); i = image; turtle = turtle}
+  {g = g; p = newPen Color.Black ; i = image; turtle = turtle}
 
 let runApplicaiton (form:Form) = 
   Application.Run(form)
