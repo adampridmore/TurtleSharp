@@ -7,40 +7,32 @@
 open Turtle
 open Canvas
 
-let rec drawSide length depth c = 
+let rec drawKockSide length depth c = 
   let splitLength = length / 3.
   
-  match depth with
-  | 0 ->  c
-          |> moveForward splitLength
-          |> turn -60.
-          |> moveForward splitLength
-          |> turn 120.
-          |> moveForward splitLength
-          |> turn -60.
-          |> moveForward splitLength
-  | x ->  c
-          |> drawSide splitLength (x-1)
-          |> turn -60.
-          |> drawSide splitLength (x-1)
-          |> turn 120.
-          |> drawSide splitLength (x-1)
-          |> turn -60.
-          |> drawSide splitLength (x-1)
+  let moveOperation = match depth with
+                      | n when n <= 0 -> moveForward splitLength
+                      | n -> drawKockSide splitLength (n-1)
+
+  c
+  |> moveOperation
+  |> turn -60.
+  |> moveOperation
+  |> turn 120.
+  |> moveOperation
+  |> turn -60.
+  |> moveOperation
 
 let depth = 5
 
-let sideLength = 5000.
+let sideLength = 1600.
 
-blankCanvas 10240.0 10240.0
+blankCanvas (1024.*4.) (1024.*4.)
 |> turn 90.
-|> drawSide sideLength depth
+|> drawKockSide sideLength depth
 |> turn 120.
-|> drawSide sideLength depth
+|> drawKockSide sideLength depth
 |> turn 120.
-|> drawSide sideLength depth
-|> turn 120.
-//|> showCanvas
+|> drawKockSide sideLength depth
 |> saveCanvas 1
 |> closeCanvas
-
