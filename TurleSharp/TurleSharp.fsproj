@@ -63,6 +63,7 @@
   <ItemGroup>
     <None Include="Script2.fsx" />
     <None Include="DragonScript.fsx" />
+    <None Include="KockCurve.fsx" />
     <Compile Include="Dragon.fs" />
     <Compile Include="TurtleTypes.fs" />
     <Compile Include="Canvas.fs" />

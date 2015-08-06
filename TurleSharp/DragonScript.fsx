@@ -9,30 +9,11 @@ open Dragon
 open TurtleTypes
 open Turtle
 open Canvas
-open System.IO
+
 open System.Drawing
 open FSharp.Collections.ParallelSeq
 
-let closeCanvas (canvas:Canvas) = 
-  canvas.g.Dispose()
-  canvas.i.Dispose()
 
-let tmpFolder = @"C:\Temp\Dragon"
-System.IO.Directory.CreateDirectory (tmpFolder) |> ignore
-
-let saveCanvas index (canvas:Canvas) = 
-  let imageFormat = Imaging.ImageFormat.Bmp
-
-  let filename = sprintf "Dragon_%dx%d_%d.%A" canvas.i.Width canvas.i.Height index imageFormat
-  let fullFileName = Path.Combine(tmpFolder,filename) //System.IO.Path.GetTempFileName()
-
-  //printf "%s" fullFileName
-
-  canvas.i.Save(fullFileName, imageFormat)
-
-  System.Diagnostics.Process.Start(fullFileName) |> ignore
-
-  canvas
 
 //let canvasWidth = 640.
 //let canvasHeight = 480.

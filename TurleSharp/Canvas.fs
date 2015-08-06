@@ -3,6 +3,7 @@
 open System.Windows.Forms
 open System.Drawing
 open TurtleTypes
+open System.IO
 
 let showCanvas (c:Canvas) = 
     let f= new System.Windows.Forms.Form();
@@ -31,7 +32,7 @@ let blankCanvas canvasWidth canvasHeight =
       position = 
         { 
           x = canvasWidth / 2. ; 
-          y = canvasHeight / 2. + 500.
+          y = canvasHeight / 2.
         };
       direction = 0. 
     }
@@ -39,11 +40,31 @@ let blankCanvas canvasWidth canvasHeight =
   let g = Graphics.FromImage(image);
   g.Clear(Color.White)
 
-  //g.SmoothingMode <- System.Drawing.Drawing2D.SmoothingMode.HighQuality
+  g.SmoothingMode <- System.Drawing.Drawing2D.SmoothingMode.HighQuality
 
   {g = g; p = newPen Color.Black ; i = image; turtle = turtle}
 
 let runApplicaiton (form:Form) = 
   Application.Run(form)
 
+let tmpFolder = @"C:\Temp\Dragon"
 
+let saveCanvas index (canvas:Canvas) = 
+  System.IO.Directory.CreateDirectory (tmpFolder) |> ignore
+  
+  let imageFormat = Imaging.ImageFormat.Bmp
+
+  let filename = sprintf "Dragon_%dx%d_%d.%A" canvas.i.Width canvas.i.Height index imageFormat
+  let fullFileName = Path.Combine(tmpFolder,filename) //System.IO.Path.GetTempFileName()
+
+  //printf "%s" fullFileName
+
+  canvas.i.Save(fullFileName, imageFormat)
+
+  System.Diagnostics.Process.Start(fullFileName) |> ignore
+
+  canvas
+
+let closeCanvas (canvas:Canvas) = 
+  canvas.g.Dispose()
+  canvas.i.Dispose()
