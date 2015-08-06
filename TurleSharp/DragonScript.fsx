@@ -48,19 +48,26 @@ let canvasHeight = 1080. * 2.
 //let canvasWidth = 3840.
 //let canvasHeight = 2160.
 
-let dragonSequence = Dragon.dragon 21
+let dragonSequence = Dragon.dragon 18
 let sequenceLength = dragonSequence |> Seq.length
 
 let renderDragon turnAmount index = 
   let toColor i = 
-    let colorList = [
-      Color.Red; 
-      Color.Blue;
-      Color.Green;
-      Color.Yellow;
-    ]
+//    let colorList = [
+//      Color.Red; 
+//      Color.Blue;
+//      Color.Green;
+//      Color.Yellow;
+//    ]
 
-    let colorIndex = (i / (sequenceLength / colorList.Length) ) % colorList.Length
+    let colorList = 
+      seq{
+        for i in 0..255 do 
+          yield Color.FromArgb(i,255-i,0)
+        }
+      |> Seq.toList
+
+    let colorIndex = (i / (sequenceLength / (colorList.Length-1) ) ) % colorList.Length
     colorList.[colorIndex]
 
   let doTurn t canvas = 
