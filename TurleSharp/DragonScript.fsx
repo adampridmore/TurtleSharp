@@ -72,7 +72,7 @@ let renderDragon turnAmount index =
   Seq.unfold unfolder (blankCanvas canvasWidth canvasHeight, dragonSequence, 0)
   |> Seq.last
   |> dragonForward
-  |> saveCanvas index
+  |> saveCanvas "DragonCurve" index
   |> closeCanvas
   //|> showCanvas
   //|> runApplicaiton

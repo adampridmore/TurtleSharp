@@ -7,32 +7,37 @@
 open Turtle
 open Canvas
 
-let rec drawKockSide length depth c = 
-  let splitLength = length / 3.
-  
-  let moveOperation = match depth with
-                      | n when n <= 0 -> moveForward splitLength
-                      | n -> drawKockSide splitLength (n-1)
+let rec drawKochSide length depth c = 
+  match depth with
+  | n when n <= 0 -> c |> moveForward length
+  | n ->  let drawMiniKochSide = drawKochSide (length / 3.) (depth-1)
+          c
+          |> drawMiniKochSide
+          |> turn -60.
+          |> drawMiniKochSide
+          |> turn 120.
+          |> drawMiniKochSide
+          |> turn -60.
+          |> drawMiniKochSide
 
-  c
-  |> moveOperation
-  |> turn -60.
-  |> moveOperation
+let canvasSize = 1024. * 4.
+
+let sideLength = canvasSize / 1.5
+
+let drawSnowflake depth = 
+  let index = depth 
+
+  blankCanvas canvasSize canvasSize
+  |> setTurtlePos {x = canvasSize / 5. ;y=canvasSize /5.}
+  |> drawKochSide sideLength depth
   |> turn 120.
-  |> moveOperation
-  |> turn -60.
-  |> moveOperation
+  |> drawKochSide sideLength depth
+  |> turn 120.
+  |> drawKochSide sideLength depth
+  |> saveCanvas "KochCurve" index
+  |> closeCanvas
 
-let depth = 5
+//let depth = 5
 
-let sideLength = 1600.
-
-blankCanvas (1024.*4.) (1024.*4.)
-|> turn 90.
-|> drawKockSide sideLength depth
-|> turn 120.
-|> drawKockSide sideLength depth
-|> turn 120.
-|> drawKockSide sideLength depth
-|> saveCanvas 1
-|> closeCanvas
+seq{0..8}
+|> Seq.iter drawSnowflake 

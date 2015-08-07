@@ -64,6 +64,7 @@
     <None Include="Script2.fsx" />
     <None Include="DragonScript.fsx" />
     <None Include="KockCurve.fsx" />
+    <None Include="TurlteTest.fsx" />
     <Compile Include="Dragon.fs" />
     <Compile Include="TurtleTypes.fs" />
     <Compile Include="Canvas.fs" />

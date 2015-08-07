@@ -35,6 +35,9 @@ let drawLine (pos:Position) (vector:Vector) (canvas: Canvas) =
   canvas.g.DrawLine(canvas.p, (toCanvas p1 canvas), (toCanvas p2 canvas)) |> ignore
   canvas
 
+let setTurtlePos (p:Position) (c: Canvas) = 
+  { c with turtle = { c.turtle with position = p} }
+  
 let moveTutle (vector:Vector) (canvas: Canvas) =
   let absoluteDirection = canvas.turtle.direction + vector.direction
   let p1 = canvas.turtle.position

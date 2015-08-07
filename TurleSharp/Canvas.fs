@@ -49,19 +49,19 @@ let runApplicaiton (form:Form) =
 
 let tmpFolder = @"C:\Temp\Dragon"
 
-let saveCanvas index (canvas:Canvas) = 
+let saveCanvas name index (canvas:Canvas) = 
   System.IO.Directory.CreateDirectory (tmpFolder) |> ignore
   
-  let imageFormat = Imaging.ImageFormat.Bmp
+  let imageFormat = Imaging.ImageFormat.Jpeg
 
-  let filename = sprintf "Dragon_%dx%d_%d.%A" canvas.i.Width canvas.i.Height index imageFormat
+  let filename = sprintf "%s_%dx%d_%d.%A" name canvas.i.Width canvas.i.Height index imageFormat
   let fullFileName = Path.Combine(tmpFolder,filename) //System.IO.Path.GetTempFileName()
 
   //printf "%s" fullFileName
 
   canvas.i.Save(fullFileName, imageFormat)
 
-  System.Diagnostics.Process.Start(fullFileName) |> ignore
+  //System.Diagnostics.Process.Start(fullFileName) |> ignore
 
   canvas
 
